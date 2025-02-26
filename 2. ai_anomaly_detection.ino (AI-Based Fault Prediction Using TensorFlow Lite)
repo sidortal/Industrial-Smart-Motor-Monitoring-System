@@ -1,0 +1,22 @@
+#include "model_data.h"  // Pre-trained AI model
+#include <TensorFlowLite.h>
+#include <tensorflow/lite/micro/all_ops_resolver.h>
+
+const int input_size = 2;  // Vibration & Temperature Data
+float input_data[input_size] = {1.5, 40.0}; // Sample input
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Running AI-based anomaly detection...");
+}
+
+void loop() {
+  float anomaly_score = run_ai_model(input_data);
+  Serial.print("Anomaly Score: "); Serial.println(anomaly_score);
+
+  if (anomaly_score > 0.8) {
+    Serial.println("⚠️ Alert! Possible Motor Fault Detected.");
+  }
+
+  delay(5000);
+}
